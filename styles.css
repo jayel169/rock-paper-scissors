@@ -1,0 +1,14 @@
+button{
+    width:200px;
+    padding:10px;
+    border-radius: 30px;
+    background-color: blanchedalmond;
+    color:black;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 19px;
+}
+button:hover{
+    background-color: rgb(160, 182, 98);
+    color:blue;
+    cursor: pointer;
+} 
