@@ -16,8 +16,8 @@ if(computerChoice === 0){
 }else{computerMove = "scissors"}
 
 
-console.log(`computer chose: ${computerMove}`);
-console.log(`You chose: ${userChoice}`);
+alert(`computer chose: ${computerMove}`);
+alert(`You chose: ${userChoice}`);
 
 
 
