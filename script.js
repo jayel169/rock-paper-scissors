@@ -1,37 +1,22 @@
-// Variables to track game rounds and scores
-const update = {
+// Retrieve stored data or initialize new game data
+let update = JSON.parse(localStorage.getItem('update')) || {
     user: 0,
     computer: 0,
     roundsPlayed: 0
 };
 
-
 // Function to play the game
 function playGame(userChoice) {
     if (update.roundsPlayed >= 5) {
-        alert("Game over! Refresh the page to play again.");
+        alert("Game over! Click 'Reset Game' to play again.");
         return;
     }
 
-   
-
-    // Getting computer input
+    // Get computer's choice
     let computerChoice = Math.floor(Math.random() * 3);
-    let computerMove = "";
+    let computerMove = ["rock", "paper", "scissors"][computerChoice];
 
-    // Relating numbers to Rock, Paper, Scissors
-    if (computerChoice === 0) {
-        computerMove = "rock";
-    } else if (computerChoice === 1) {
-        computerMove = "paper";
-    } else {
-        computerMove = "scissors";
-    }
-
-    alert(`Computer chose: ${computerMove}`);
-    alert(`You chose: ${userChoice}`);
-
-    // Determine the round winner
+    // Determine round winner
     if (userChoice === computerMove) {
         alert("It's a tie!");
     } else if (
@@ -40,26 +25,43 @@ function playGame(userChoice) {
         (userChoice === "rock" && computerMove === "scissors")
     ) {
         alert("You win this round!");
-        update.user++; // Fix: Increment correct property
+        update.user++;
     } else {
         alert("You lose this round!");
-        update.computer++; // Fix: Increment correct property
+        update.computer++;
     }
 
-    update.roundsPlayed++; // Fix: Update roundsPlayed correctly
+    update.roundsPlayed++;
 
-    // Display current score
-    alert(`Round ${update.roundsPlayed}/5 \nYour Score: ${update.user} \nComputer Score: ${update.computer}`);
+    // Store updated data in localStorage
+    localStorage.setItem('update', JSON.stringify(update));
+
+    // Update UI before alerts
+    document.querySelector(".userchoice").innerText = `You chose: ${userChoice}`;
+    document.querySelector(".compchoice").innerText = `Computer chose: ${computerMove}`;
+    document.querySelector(".outcome").innerText = 
+        `Round ${update.roundsPlayed}/5\nYour Score: ${update.user}\nComputer Score: ${update.computer}`;
 
     // Check if the game is over
     if (update.roundsPlayed === 5) {
         if (update.user > update.computer) {
-            alert("Congratulations! You won the game! 🎉");
+            alert("🎉 Congratulations! You won the game!");
         } else if (update.computer > update.user) {
-            alert("You lost the game! Better luck next time. 😞");
+            alert("😞 You lost the game! Better luck next time.");
         } else {
-            alert("It's a tie game! 😮");
+            alert("😮 It's a tie game!");
         }
-        alert("Game Over! Refresh the page to play again.");
+        alert("Game Over! Click 'Reset Game' to play again.");
     }
+}
+
+// Function to reset the game
+function resetGame() {
+    update = { user: 0, computer: 0, roundsPlayed: 0 };
+    localStorage.removeItem('update');
+
+    // Reset UI
+    document.querySelector(".userchoice").innerText = "Your choice:";
+    document.querySelector(".compchoice").innerText = "Computer choice:";
+    document.querySelector(".outcome").innerText = "";
 }
